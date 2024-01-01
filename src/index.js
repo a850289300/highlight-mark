@@ -3,8 +3,11 @@ let highlight = new Highlight({
   root: '.text',
   text: '张三喜欢吃屎',
   data: [],
-  immediate: true
+  immediate: false
 })
-highlight.on('select', ()=> {
-  console.log(11111)
+highlight.on('select', (range)=> {
+  console.log('选择一个新的选取', range)
+})
+highlight.on('create', (range)=> {
+  console.log('创建一个新的选取', range)
 })

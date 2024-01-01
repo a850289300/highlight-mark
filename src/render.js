@@ -47,7 +47,7 @@ import { removeSelection } from './util/selection'
     if (this.immediate) {
       this.nodeHighlight(range.getSelectNodes(), range.id)
       removeSelection();
-      this.emit(EventType.create)
+      this.emit(EventType.create, range)
     } else {
       this.emit(EventType.select, range)
     }
