@@ -13,7 +13,7 @@ import { removeSelection } from './util/selection'
   }
   // 初始化
   initRender(options = {}) {
-    const { root, text, marks, className, immediate } = options
+    const { root, text, marks, className, immediate, edit } = options
     this.$root = document.querySelector(root);
     if (!this.$root) {
       throw Error('error: Wrong root element, please correct it');
@@ -22,8 +22,13 @@ import { removeSelection } from './util/selection'
     this.marks = marks;
     this.className = className;
     this.immediate = immediate;
-    this.bindEvent()
+    this.bindEvent();
+    this.setRootBaseInfo(edit);
     this.parsingDataToDom();
+  }
+  // 设置根节点的基本信息
+  setRootBaseInfo(edit) {
+    this.$root.setAttribute('contenteditable', edit)
   }
   // 解析数据到dom节点
   parsingDataToDom() {
@@ -43,6 +48,17 @@ import { removeSelection } from './util/selection'
   // 划词 
   selectWords() {
     const range = new Range(this.$root);
+    let error;
+    // 没有选区
+    if (!range.range) {
+      return;
+    }
+    // 划词前进行检错
+    if (error = range.checkRange()) {
+      this.emit(EventType.error, error);
+      removeSelection();
+      return;
+    }
     // 立即标记
     if (this.immediate) {
       this.nodeHighlight(range.getSelectNodes(), range.id)

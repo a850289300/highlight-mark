@@ -25,6 +25,6 @@ export default class Highlight extends Render{
     // 参数合并
     this.options = Object.assign(this.options, options);
     // 初始化渲染容器
-    this.initRender(options)
+    this.initRender(this.options)
   }
 }

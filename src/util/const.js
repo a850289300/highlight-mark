@@ -4,7 +4,8 @@ export const EventMap = {
 
 export const EventType = {
   select: 'select',
-  create: 'create'
+  create: 'create',
+  error: 'error'
 }
 
 // 默认的className

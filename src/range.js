@@ -39,6 +39,34 @@ export default class Range {
   }
 
   /**
+   * 判断划选的range是否符合规则
+   */
+  checkRange() {
+    const range = this.range;
+    if (!range) {
+      return;
+    }
+    const commonAncestorContainer = range.commonAncestorContainer; // 共同的父节点
+    // 找到错误节点
+    const error = [...commonAncestorContainer.childNodes].find((node) => {
+      // 如果是文本节点就找父级
+      if (node.nodeType === 3) {
+        node = node.parentNode;
+      }
+      if (node.classList.contains(this.className)) {
+        return true
+      }
+      return false;
+    })
+    if (error) {
+      return {
+        type: 'repeat',
+        error
+      }
+    }
+  }
+
+  /**
    * 获取所有选择的区域
    */
   getSelectNodes () {
